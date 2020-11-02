@@ -26,7 +26,7 @@ NEWZ_BEAT_CHANNEL_ID = 'UCgoXKBqkLrBau7dVpXFhWDA'
 
 # The chef subclass
 ################################################################################
-class NewzBeatChef(YouTubeSushiChef):
+class NewzBeatChef(YoutubeSushiChef):
     """
     This class converts content from the content source into the format required by Kolibri,
     then uploads the {channel_name} channel to Kolibri Studio.
@@ -48,8 +48,42 @@ class NewzBeatChef(YouTubeSushiChef):
         'CHANNEL_THUMBNAIL': CHANNEL_THUMBNAIL,
         'CHANNEL_DESCRIPTION': CHANNEL_DESCRIPTION,
     }
+    DATA_DIR = os.path.abspath('chefdata')
+    DOWNLOADS_DIR = os.path.join(DATA_DIR, 'downloads')
+    ARCHIVE_DIR = os.path.join(DOWNLOADS_DIR, 'archive_{}'.format(CONTENT_ARCHIVE_VERSION))
+
+    def get_video_ids(self):
+        return get_video_ids(NEWZ_BEAT_CHANNEL_ID)
+
+    def get_channel_metadata(self):
+        return {
+            'defaults': {
+                'license': licenses.AllRightsLicense("NewzBeat"),
+                'high_resolution': True
+            }
+        }
 
 
+def get_video_ids(channel_id):
+    youtube = build('youtube', 'v3', developerKey = 'AIzaSyB55y0HJENbbEBQBQzM-jbhdkW3A4V6PMs')
+    response = youtube.channels().list(id=channel_id, part = 'contentDetails').execute()
+
+    uploads_id = response['items'][0]['contentDetails']['relatedPlaylists']['uploads']
+
+    video_ids = []
+    next_page_token = None
+    while 1:
+
+        uploads_playlist = youtube.playlistItems().list(playlistId=uploads_id, part='snippet', maxResults = 50, pageToken = next_page_token).execute()
+        for element in uploads_playlist['items']:
+            video_ids.append(element['snippet']['resourceId']['videoId'])
+        
+        next_page_token = uploads_playlist.get('nextPageToken')
+
+        if next_page_token is None:
+            break
+
+    return video_ids
 
 # CLI
 ################################################################################
