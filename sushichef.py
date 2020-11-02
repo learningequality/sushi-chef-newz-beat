@@ -1,29 +1,27 @@
 #!/usr/bin/env python
 import os
-import sys
-from ricecooker.utils import downloader, html_writer
-from ricecooker.chefs import YouTubeSushiChef
-from ricecooker.classes import nodes, files, questions, licenses
-from ricecooker.config import LOGGER              # Use LOGGER to print messages
-from ricecooker.exceptions import raise_for_invalid_channel
-from le_utils.constants import exercises, content_kinds, file_formats, format_presets, languages
+from ricecooker.chefs import YoutubeSushiChef
+from ricecooker.classes import licenses
+from googleapiclient.discovery import build
 
 
 # Run constants
 ################################################################################
 CHANNEL_ID = "32e5033ebc7a456b91fccbd2747d4035"             # UUID of channel
 CHANNEL_NAME = "Newz Beat"                           # Name of Kolibri channel
-CHANNEL_SOURCE_ID = "<yourid>"                              # Unique ID for content source
-CHANNEL_DOMAIN = "<yourdomain.org>"                         # Who is providing the content
+CHANNEL_SOURCE_ID = "Newz_Beat"                              # Unique ID for content source
+CHANNEL_DOMAIN = "youtube.com"                         # Who is providing the content
 CHANNEL_LANGUAGE = "en"                                     # Language of channel
-CHANNEL_DESCRIPTION = None                                  # Description of the channel (optional)
-CHANNEL_THUMBNAIL = None                                    # Local path or url to image file (optional)
+CHANNEL_DESCRIPTION = 'ollow the beat, follow the beat. From the studio to the street....Tuula, kalira, wuliriza, nyumirwa amawulire! NewzBeat is a Ugandan rap-news programme delivering the latest information in verse and rhyme. Beeramu tosubwa amawulire gaffe mu bitontome! This bilingual English-Luganda news magazine show airs on NTV Uganda every weekend!'                                  # Description of the channel (optional)
+CHANNEL_THUMBNAIL = os.path.join('files', 'logo.jpg')                                    # Local path or url to image file (optional)
 CONTENT_ARCHIVE_VERSION = 1                                 # Increment this whenever you update downloaded content
 
 
 # Additional constants
 ################################################################################
-
+# Add Google API key here. Will need access to the Youtube API v3 in order for script to run.
+GOOGLE_API_KEY = None
+NEWZ_BEAT_CHANNEL_ID = 'UCgoXKBqkLrBau7dVpXFhWDA'
 
 
 # The chef subclass
