@@ -58,7 +58,7 @@ class NewzBeatChef(YouTubeSushiChef):
     def get_channel_metadata(self):
         return {
             'defaults': {
-                'license': licenses.AllRightsLicense("NewzBeat"),
+                'license': licenses.CC_BY_NCLicense("NewzBeat"),
                 'high_resolution': True
             }
         }
