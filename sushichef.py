@@ -20,7 +20,7 @@ CONTENT_ARCHIVE_VERSION = 1                                 # Increment this whe
 # Additional constants
 ################################################################################
 # TODO Add Google API key here. Will need access to the Youtube API v3 in order for script to run.
-GOOGLE_API_KEY = None
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 NEWZ_BEAT_CHANNEL_ID = 'UCgoXKBqkLrBau7dVpXFhWDA'
 
 
