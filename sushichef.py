@@ -65,8 +65,8 @@ class NewzBeatChef(YouTubeSushiChef):
 
 
 def get_video_ids(channel_id):
-    if not developerKey:
-        raise Exception('Missing Google API Key')
+    if not GOOGLE_API_KEY:
+        raise Exception('Missing Google API Key. Please add a key to proceed.')
         exit(1)
 
     youtube = build('youtube', 'v3', developerKey = GOOGLE_API_KEY)
